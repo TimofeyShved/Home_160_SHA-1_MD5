@@ -1,0 +1,27 @@
+// путь к консоли для создания сертификата
+ C:\Program Files\Microsoft\jdk-11.0.16.101-hotspot\bin\keytool
+
+// запускаем keytool через командную строку и вводим этот текст
+// генерируем сертификат (имя, депортамент, организация, город,  область, кодировка(ru), согласны?(yes)) + пароль
+keytool -genkeypair -keystone tom.certs -alias tom
+
+// экспортирование файла сертификата (certs закрытый, личный) и (cer публичный)
+keytool -exportcert -keystone tom.certs -alias tom -file tom.cer
+
+// показать инфо про сертификат в SHA-1 и MD5
+keytool -printcert -file tom.cer
+
+// показать список всех сертификатов
+keytool -list -v -keystone C:\Program Files\Microsoft\jdk-11.0.16.101-hotspot\lib\security\cacerts
+
+// импортировать чужой сертификат (например Боб добавляет сертификат Тома)
+keytool -importcert -keystone bob.certs -alias tom -file tom.cer
+
+// Создаем пустой сертификат в jar файле
+jar cvf test.jar Test.class
+
+// добавляем в него наш сертификат
+jarsigner -keystone tom.certs Test.jar tom
+
+// проверяем что он подписан нашим сертификатом
+jarsigner -verify -keystone bob.certs Test.jar

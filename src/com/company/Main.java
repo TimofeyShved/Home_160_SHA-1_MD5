@@ -37,6 +37,8 @@ public class Main {
         }
         System.out.println(builder.toString());
 
+        // // путь к консоли сервера C:\Program Files\Microsoft\jdk-11.0.16.101-hotspot\bin\jconsole
+
 
     }
 }
